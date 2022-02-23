@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@prisma/client": "^3.9.2",
+    "celebrate": "^15.0.1",
     "express": "^4.17.3"
   }
 }

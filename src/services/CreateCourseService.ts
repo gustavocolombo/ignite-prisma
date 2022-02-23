@@ -1,5 +1,6 @@
 import { Courses, Prisma } from "@prisma/client";
 import prisma from "../prisma";
+import AppError from "../shared/errors/AppError";
 
 export default class CreateCourseService {
   async execute({
@@ -7,19 +8,23 @@ export default class CreateCourseService {
     description,
     duration,
   }: Prisma.CoursesCreateInput): Promise<Courses> {
-    const newCourse = await prisma.courses.create({
-      data: {
-        name,
-        description,
-        duration,
-        teachers: {
-          create: {
-            name: 'Gustavo Colombo'
+    try {
+      const newCourse = await prisma.courses.create({
+        data: {
+          name,
+          description,
+          duration,
+          teachers: {
+            create: {
+              name: "Gustavo Colombo",
+            },
           },
         },
-      },
-    });
+      });
 
-    return newCourse;
+      return newCourse;
+    } catch (err) {
+      throw new AppError('Operação não realizada');
+    }
   }
 }
