@@ -2,6 +2,7 @@ import { celebrate, Joi } from "celebrate";
 import { Router } from "express";
 import CreateArticleController from "../controllers/ArticleController";
 import CoursesController from "../controllers/CoursesController";
+import FiltersController from "../controllers/FiltersController";
 import CreateStudentController from "../controllers/StudentController";
 import TeacherController from "../controllers/TeacherController";
 
@@ -53,6 +54,16 @@ routes.post(
     }),
   }),
   new CreateStudentController().handle
+);
+
+routes.get(
+  "/v1/students/get-name/:name",
+  celebrate({
+    params: Joi.object().keys({
+      name: Joi.string().required(),
+    }),
+  }),
+  new FiltersController().filterByName
 );
 
 export default routes;
