@@ -40,3 +40,26 @@ model Modules {
 
   @@map("modules")
 }
+
+model Students {
+  id           String @id @default(uuid())
+  name         String
+  registration Int
+  graduation   String
+
+  articles Articles[]
+
+  @@map("students")
+}
+
+model Articles {
+  id          String @id @default(uuid())
+  name        String @unique
+  qtdPaginas  Int
+  description String
+
+  student    Students @relation(fields: [student_id], references: [id])
+  student_id String
+
+  @@map("articles")
+}

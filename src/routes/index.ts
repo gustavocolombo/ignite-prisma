@@ -1,6 +1,8 @@
 import { celebrate, Joi } from "celebrate";
 import { Router } from "express";
+import CreateArticleController from "../controllers/ArticleController";
 import CoursesController from "../controllers/CoursesController";
+import CreateStudentController from "../controllers/StudentController";
 import TeacherController from "../controllers/TeacherController";
 
 const routes = Router();
@@ -24,6 +26,33 @@ routes.post(
     }),
   }),
   new TeacherController().handle
+);
+
+routes.post(
+  "/v1/articles/create/:student_id",
+  celebrate({
+    body: Joi.object().keys({
+      name: Joi.string().required(),
+      description: Joi.string().required(),
+      qtdPaginas: Joi.number().required(),
+    }),
+    params: {
+      student_id: Joi.string().required(),
+    },
+  }),
+  new CreateArticleController().handle
+);
+
+routes.post(
+  "/v1/students/create",
+  celebrate({
+    body: Joi.object().keys({
+      name: Joi.string().required(),
+      graduation: Joi.string().required(),
+      registration: Joi.number().required(),
+    }),
+  }),
+  new CreateStudentController().handle
 );
 
 export default routes;
